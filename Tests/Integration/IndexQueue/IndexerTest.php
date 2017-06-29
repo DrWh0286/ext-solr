@@ -361,7 +361,12 @@ class IndexerTest extends IntegrationTest
         ];
         $item = new Item($itemMetaData);
 
+        $solrConnection = new \ApacheSolrForTypo3\Solr\SolrService();
+        $expected = [
+            1 => $solrConnection
+        ];
+
         $result = $this->callInaccessibleMethod($this->indexer,'getSolrConnectionsByItem', $item);
-        $this->assertNotEquals(null, $result);
+        $this->assertNotEquals($expected, $result);
     }
 }
