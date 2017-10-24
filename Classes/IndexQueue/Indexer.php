@@ -211,6 +211,11 @@ class Indexer extends AbstractIndexer
         ) {
             $itemRecord = null;
         }
+        if (!empty($GLOBALS['TCA'][$item->getType()]['ctrl']['enablecolumns']['disableSolrIndex'])
+            && $itemRecord[$GLOBALS['TCA'][$item->getType()]['ctrl']['enablecolumns']['disableSolrIndex']]
+        ) {
+            $itemRecord = null;
+        }
 
         /*
          * Skip translation mismatching records. Sometimes the requested language

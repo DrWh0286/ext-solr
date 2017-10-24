@@ -267,6 +267,10 @@ abstract class AbstractInitializer implements IndexQueueInitializer
             $conditions['disabled'] = $GLOBALS['TCA'][$this->type]['ctrl']['enablecolumns']['disabled'] . ' = 0';
         }
 
+        if (isset($GLOBALS['TCA'][$this->type]['ctrl']['enablecolumns']['disableSolrIndex'])) {
+            $conditions['disableSolrIndex'] = $GLOBALS['TCA'][$this->type]['ctrl']['enablecolumns']['disableSolrIndex'] . ' = 0';
+        }
+
         if (isset($GLOBALS['TCA'][$this->type]['ctrl']['enablecolumns']['endtime'])) {
             // only include records with a future endtime or default value (0)
             $endTimeFieldName = $GLOBALS['TCA'][$this->type]['ctrl']['enablecolumns']['endtime'];

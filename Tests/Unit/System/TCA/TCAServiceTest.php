@@ -377,4 +377,52 @@ class TCAServiceTest extends UnitTest
         $visibilityFields = $tcaService->getVisibilityAffectingFieldsByTable('tx_domain_model_faketable');
         $this->assertContains('fe_groups', $visibilityFields, 'The field fe_groups should be retrieved as visbility affecting field');
     }
+
+    /**
+     * @test
+     */
+    public function isDisabledForSolrIndexCanDetectDisabledRecords()
+    {
+        $fakeTCA = [
+            'pages' => [
+                'ctrl' => [
+                    'enablecolumns' => [
+                        'disableSolrIndex' => 'hide_for_solr_index'
+                    ]
+                ]
+            ]
+        ];
+
+        $fakePageRecord = [
+            'hide_for_solr_index' => 1
+        ];
+        $tcaService = new TCAService($fakeTCA);
+        $isHidden = $tcaService->isDisabledForSolrIndex('pages', $fakePageRecord);
+
+        $this->assertTrue($isHidden, 'Page was expected to be disabled for solr index');
+    }
+
+    /**
+     * @test
+     */
+    public function isDisabledForSolrIndexCanDetectNonDisabledRecords()
+    {
+        $fakeTCA = [
+            'pages' => [
+                'ctrl' => [
+                    'enablecolumns' => [
+                        'disableSolrIndex' => 'hide_for_solr_index'
+                    ]
+                ]
+            ]
+        ];
+
+        $fakePageRecord = [
+            'hide_for_solr_index' => 0
+        ];
+        $tcaService = new TCAService($fakeTCA);
+        $isHidden = $tcaService->isDisabledForSolrIndex('pages', $fakePageRecord);
+
+        $this->assertFalse($isHidden, 'Page was not expected to be disabled for solr index');
+    }
 }

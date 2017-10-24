@@ -177,6 +177,27 @@ class TCAService
         return $hidden;
     }
 
+
+    /**
+     * Checks whether a disableSolrIndex field exists for the current table and if so
+     * determines whether it is set on the current record.
+     *
+     * @param string $table The table name.
+     * @param array $record An array with record fields that may affect visibility.
+     * @return bool True if the record is hidden, FALSE otherwise.
+     */
+    public function isDisabledForSolrIndex($table, $record)
+    {
+        $disableSolrIndex = false;
+
+        if (isset($this->tca[$table]['ctrl']['enablecolumns']['disableSolrIndex'])) {
+            $disableSolrIndexField = $this->tca[$table]['ctrl']['enablecolumns']['disableSolrIndex'];
+            $disableSolrIndex = (boolean)$record[$disableSolrIndexField];
+        }
+
+        return $disableSolrIndex;
+    }
+
     /**
      * Makes sure that "empty" frontend group fields are always the same value.
      *

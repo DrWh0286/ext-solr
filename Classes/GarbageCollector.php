@@ -375,6 +375,7 @@ class GarbageCollector extends AbstractDataHandlerListener implements SingletonI
         $record = $this->tcaService->normalizeFrontendGroupField($table, $record);
 
         if ($this->tcaService->isHidden($table, $record)
+            || $this->tcaService->isDisabledForSolrIndex($table, $record)
             || $this->isInvisibleByStartOrEndtime($table, $record)
             || $this->hasFrontendGroupsRemoved($table, $record)
             || ($table === 'pages' && $this->isPageExcludedFromSearch($record))
